@@ -65,11 +65,10 @@ const theme = {
       "#000000",
     ],
   },
-  colorScheme: "light",
-  fontFamily: "Roboto",
+  fontFamily: "Poppins, sans-serif",
   primaryColor: "primary",
   primaryShade: 5,
-  defaultRadius: "md",
+  //   defaultRadius: "md",
   components: {
     Container: {
       defaultProps: {
