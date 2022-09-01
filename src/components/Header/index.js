@@ -1,16 +1,16 @@
 import {
   ActionIcon,
   Box,
-  Button,
   Container,
   Group,
   Header as MantineHeader,
+  MediaQuery,
   Title,
   useMantineColorScheme,
 } from "@mantine/core";
 import React from "react";
 import { MdOutlineEventNote } from "react-icons/md";
-import { TbMoon, TbSun } from "react-icons/tb";
+import { TbArchive, TbMoon, TbSun } from "react-icons/tb";
 import useStyles from "./styles";
 
 const Header = (props) => {
@@ -29,16 +29,30 @@ const Header = (props) => {
           <Box>
             <Group>
               <MdOutlineEventNote size={36} />
-              <Title>Note App</Title>
+              <MediaQuery
+                smallerThan={"sm"}
+                styles={{
+                  display: "none",
+                }}
+              >
+                <Title>Note App</Title>
+              </MediaQuery>
             </Group>
           </Box>
           <Box>
             <Group>
-              <Button color={"secondary"}>Archived</Button>
               <ActionIcon
-                className={classes.buttonChangeTheme}
+                className={classes.buttonNav}
+                variant="filled"
+                color={"secondary"}
+                title="Archive"
+              >
+                <TbArchive size={24} />
+              </ActionIcon>
+              <ActionIcon
+                className={classes.buttonNav}
                 variant="light"
-                color={dark ? "primary" : "blue"}
+                color={dark ? "yellow" : "blue"}
                 onClick={() => toggleColorScheme()}
                 title="Change color mode"
               >

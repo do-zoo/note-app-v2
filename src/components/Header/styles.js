@@ -7,7 +7,7 @@ const useStyles = createStyles((theme) => ({
   groupHeader: {
     height: "100%",
   },
-  buttonChangeTheme: {
+  buttonNav: {
     width: "36px",
     height: "36px",
   },
