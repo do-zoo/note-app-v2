@@ -1,7 +1,10 @@
 import { ColorSchemeProvider, MantineProvider, Text } from "@mantine/core";
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks";
+import { Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout";
 import theme from "../config/theme";
+import DetailNote from "./DetailNote";
+import Home from "./Home";
 
 function App() {
   const preferredColorScheme = useColorScheme();
@@ -28,7 +31,10 @@ function App() {
         }}
       >
         <Layout>
-          <Text>Welcome to Mantine!</Text>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/detail" element={<DetailNote />} />
+          </Routes>
         </Layout>
       </MantineProvider>
     </ColorSchemeProvider>

@@ -1,6 +1,10 @@
 import { createStyles } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
+  header: {
+    position: "sticky",
+    top: 0,
+  },
   containerHeader: {
     height: "100%",
   },
@@ -8,8 +12,8 @@ const useStyles = createStyles((theme) => ({
     height: "100%",
   },
   buttonNav: {
-    width: "36px",
-    height: "36px",
+    width: "2.5rem",
+    height: "2.5rem",
   },
 }));
 

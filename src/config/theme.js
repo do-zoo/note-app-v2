@@ -68,11 +68,11 @@ const theme = {
   fontFamily: "Poppins, sans-serif",
   primaryColor: "primary",
   primaryShade: 5,
-  //   defaultRadius: "md",
+  defaultRadius: "md",
   components: {
     Container: {
       defaultProps: {
-        size: "lg",
+        size: "xl",
       },
     },
   },
