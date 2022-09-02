@@ -1,4 +1,4 @@
-import { ColorSchemeProvider, MantineProvider, Text } from "@mantine/core";
+import { ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout";
@@ -33,7 +33,7 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/detail" element={<DetailNote />} />
+            <Route path="/:noteId" element={<DetailNote />} />
           </Routes>
         </Layout>
       </MantineProvider>

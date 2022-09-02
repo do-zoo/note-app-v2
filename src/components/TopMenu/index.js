@@ -1,5 +1,3 @@
-import React from "react";
-import PropTypes from "prop-types";
 import {
   ActionIcon,
   Box,
@@ -9,8 +7,10 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import useStyles from "./styles";
+import PropTypes from "prop-types";
+import React from "react";
 import { TbArchive, TbPlus, TbSearch, TbTrash } from "react-icons/tb";
+import useStyles from "./styles";
 
 export function TopMenuDetail(props) {
   const { classes } = useStyles();
@@ -47,7 +47,7 @@ export function TopMenuDetail(props) {
 
 TopMenuDetail.propTypes = {};
 
-export const TopMenuHome = () => {
+export const TopMenuHome = ({ onSearch }) => {
   const { classes } = useStyles();
   return (
     <Box className={classes.topBar}>
@@ -65,6 +65,7 @@ export const TopMenuHome = () => {
                 flexGrow: 1,
               }}
               size="md"
+              onChange={onSearch}
             />
 
             <ActionIcon
@@ -86,4 +87,6 @@ export const TopMenuHome = () => {
   );
 };
 
-TopMenuHome.propTypes = {};
+TopMenuHome.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+};

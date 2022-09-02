@@ -1,27 +1,28 @@
-import React from "react";
-import PropTypes from "prop-types";
 import {
   ActionIcon,
   Anchor,
-  Box,
   Card,
   Group,
   Menu,
   Text,
   Title,
 } from "@mantine/core";
-import useStyles from "./styles";
+import PropTypes from "prop-types";
+import React from "react";
 import { TbArchive, TbDots, TbTrash } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import { showFormattedDate } from "../../utils";
+import useStyles from "./styles";
 
-function NoteCard(props) {
+function NoteCard({ title, body, createdAt, id }) {
   const { classes } = useStyles();
+
   return (
     <Card shadow={"sm"} color={"secondary"} className={classes.card}>
       <Card.Section inheritPadding py="xs">
         <Group position="apart">
-          <Anchor component={Link} to="/detail">
-            <Title order={4}>Title</Title>
+          <Anchor component={Link} to={`${id}`} className={classes.title}>
+            <Title order={4}>{title}</Title>
           </Anchor>
           <Menu withinPortal position="bottom-end" shadow="sm">
             <Menu.Target>
@@ -40,17 +41,22 @@ function NoteCard(props) {
         </Group>
       </Card.Section>
       <Text mt={"md"} size="md">
-        NoteCard
+        {body.length > 100 ? body.substring(0, 100) + "..." : body}
       </Text>
       <Card.Section inheritPadding py="xs">
-        <Text align="right" weight={300}>
-          12 Jan 2021
+        <Text align="right" weight={300} size="sm">
+          {showFormattedDate(createdAt)}
         </Text>
       </Card.Section>
     </Card>
   );
 }
 
-NoteCard.propTypes = {};
+NoteCard.propTypes = {
+  body: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+};
 
 export default NoteCard;

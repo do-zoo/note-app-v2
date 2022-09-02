@@ -8,6 +8,9 @@ const useStyles = createStyles((theme) => ({
         : theme.colors["primary"][4],
     color: theme.colors["tertiary"][6],
   },
+  title: {
+    color: theme.colors["tertiary"][6],
+  },
 }));
 
 export default useStyles;

@@ -1,29 +1,32 @@
-import { Box, Grid } from "@mantine/core";
-import React from "react";
-import NoteCard from "../components/Card/NoteCard";
+import React, { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import NoteList from "../components/NoteList";
 import { TopMenuHome } from "../components/TopMenu";
+import { getAllNotes } from "../utils/local-data";
 
-function Home(props) {
+function Home() {
+  const notes = getAllNotes();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const updateSearchMenu = (e) => {
+    const search = e.target.value;
+    setSearchParams({ search });
+  };
+  useEffect(() => {
+    if (searchParams?.get("search") === "") {
+      searchParams.delete("search");
+      setSearchParams(searchParams);
+    }
+  }, [searchParams, setSearchParams]);
+
+  console.log(searchParams);
+
+  console.log(searchParams.get("search"));
   return (
     <>
-      <TopMenuHome />
-      <Box
-        sx={{
-          paddingTop: "1rem",
-          paddingBottom: "1rem",
-          position: "relative",
-        }}
-      >
-        <Grid>
-          <Grid.Col md={4} xs={6}>
-            <NoteCard />
-          </Grid.Col>
-        </Grid>
-      </Box>
+      <TopMenuHome onSearch={updateSearchMenu} />
+      {notes.length > 0 && <NoteList notes={notes} />}
     </>
   );
 }
-
-Home.propTypes = {};
 
 export default Home;
