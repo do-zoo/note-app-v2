@@ -14,7 +14,7 @@ import { TbArchive, TbArrowLeft, TbMoon, TbSun } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
 import useStyles from "./styles";
 
-const Header = (props) => {
+const Header = () => {
   const { pathname } = useLocation();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { classes } = useStyles();
@@ -82,7 +82,5 @@ const Header = (props) => {
     </MantineHeader>
   );
 };
-
-Header.propTypes = {};
 
 export default Header;

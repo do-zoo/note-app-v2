@@ -40,8 +40,8 @@ function NoteCard({ title, body, createdAt, id }) {
           </Menu>
         </Group>
       </Card.Section>
-      <Text mt={"md"} size="md">
-        {body.length > 100 ? body.substring(0, 100) + "..." : body}
+      <Text mt={"md"} size="md" lineClamp={3} className={classes.body}>
+        {body}
       </Text>
       <Card.Section inheritPadding py="xs">
         <Text align="right" weight={300} size="sm">

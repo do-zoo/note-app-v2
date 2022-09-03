@@ -4,6 +4,7 @@ import { Box, Grid } from "@mantine/core";
 import NoteCard from "../Card/NoteCard";
 
 const NoteList = ({ notes }) => {
+  console.log("aku note list");
   return (
     <Box
       sx={{
@@ -12,7 +13,7 @@ const NoteList = ({ notes }) => {
         position: "relative",
       }}
     >
-      <Grid>
+      <Grid align={"stretch"}>
         {notes?.map((note) => (
           <Grid.Col md={4} xs={6} key={note.id}>
             <NoteCard

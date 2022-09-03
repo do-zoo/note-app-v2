@@ -2,6 +2,7 @@ import { createStyles } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
   card: {
+    height: "100%",
     backgroundColor:
       theme.colorScheme === "dark"
         ? theme.colors["primary"][5]
@@ -10,6 +11,9 @@ const useStyles = createStyles((theme) => ({
   },
   title: {
     color: theme.colors["tertiary"][6],
+  },
+  body: {
+    height: "76px",
   },
 }));
 

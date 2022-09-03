@@ -1,32 +1,55 @@
-import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import React, { Component, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import NoteList from "../components/NoteList";
 import { TopMenuHome } from "../components/TopMenu";
 import { getAllNotes } from "../utils/local-data";
 
-function Home() {
-  const notes = getAllNotes();
+export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const updateSearchMenu = (e) => {
-    const search = e.target.value;
-    setSearchParams({ search });
+  const keyword = searchParams.get("search") || "";
+  const updateSearchMenu = (search) => {
+    setSearchParams({ search: search });
   };
+
   useEffect(() => {
-    if (searchParams?.get("search") === "") {
+    if (keyword === "") {
       searchParams.delete("search");
       setSearchParams(searchParams);
     }
-  }, [searchParams, setSearchParams]);
+  }, [searchParams, setSearchParams, keyword]);
 
-  console.log(searchParams);
-
-  console.log(searchParams.get("search"));
   return (
-    <>
-      <TopMenuHome onSearch={updateSearchMenu} />
-      {notes.length > 0 && <NoteList notes={notes} />}
-    </>
+    <HomeContainer updateSearchMenu={updateSearchMenu} keyword={keyword} />
   );
 }
 
-export default Home;
+class HomeContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      notes: getAllNotes() || [],
+      keyword: "",
+    };
+    this.onSearch = this.onSearch.bind(this);
+  }
+
+  onSearch(keyword) {
+    this.setState({ keyword });
+    this.props.updateSearchMenu(keyword);
+  }
+
+  render() {
+    return (
+      <>
+        <TopMenuHome onSearch={this.onSearch} keyword={this.state.keyword} />
+        {this.state.notes.length > 0 && <NoteList notes={this.state.notes} />}
+      </>
+    );
+  }
+}
+
+HomeContainer.propTypes = {
+  updateSearchMenu: PropTypes.func.isRequired,
+  keyword: PropTypes.string,
+};
