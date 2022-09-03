@@ -1,16 +1,6 @@
-import {
-  ActionIcon,
-  Box,
-  Grid,
-  Group,
-  Loader,
-  Modal,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { ActionIcon, Box, Grid, Group, TextInput, Title } from "@mantine/core";
 import PropTypes from "prop-types";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { TbArchive, TbPlus, TbSearch, TbTrash } from "react-icons/tb";
 import ModalCreateNote from "../Modals/ModalCreateNote";
 import useStyles from "./styles";
@@ -53,6 +43,11 @@ export const TopMenuHome = ({ onSearch, keyword }) => {
   console.log("aku top menu home");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { classes } = useStyles();
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
       <Box className={classes.topBar}>
@@ -61,7 +56,7 @@ export const TopMenuHome = ({ onSearch, keyword }) => {
             <Title order={3}>Catatan Aktif</Title>
           </Grid.Col>
           <Grid.Col xs={7} sm={7}>
-            <Group position="apart">
+            <Group position="right">
               <TextInput
                 icon={<TbSearch />}
                 placeholder="Search..."
@@ -80,9 +75,6 @@ export const TopMenuHome = ({ onSearch, keyword }) => {
                 sx={{
                   width: "2.5rem",
                   height: "2.5rem",
-                  // position: "fixed",
-                  // bottom: "1rem",
-                  // right: "1rem",
                 }}
                 onClick={() => {
                   setIsModalOpen(true);
@@ -94,7 +86,7 @@ export const TopMenuHome = ({ onSearch, keyword }) => {
           </Grid.Col>
         </Grid>
       </Box>
-      <ModalCreateNote isOpen={isModalOpen} />
+      <ModalCreateNote isOpen={isModalOpen} onClose={handleCloseModal} />
     </>
   );
 };

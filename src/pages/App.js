@@ -1,6 +1,5 @@
 import { ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks";
-import { ModalsProvider } from "@mantine/modals";
 import { Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout";
 import theme from "../config/theme";
@@ -31,25 +30,12 @@ function App() {
           colorScheme,
         }}
       >
-        <ModalsProvider
-          modalProps={{
-            styles: (theme) => ({
-              modal: {
-                backgroundColor:
-                  theme.colorScheme === "dark"
-                    ? theme.colors["primary"][5]
-                    : theme.colors["primary"][4],
-              },
-            }),
-          }}
-        >
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/:noteId" element={<DetailNote />} />
-            </Routes>
-          </Layout>
-        </ModalsProvider>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/:noteId" element={<DetailNote />} />
+          </Routes>
+        </Layout>
       </MantineProvider>
     </ColorSchemeProvider>
   );
