@@ -1,6 +1,6 @@
 import { ColorSchemeProvider, MantineProvider } from "@mantine/core";
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout";
 import theme from "../config/theme";
 import NotFound from "./404";
@@ -37,7 +37,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/archived" element={<Archived />} />
             <Route path="/:noteId" element={<DetailNote />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<Navigate to="/404" replace />} />
           </Routes>
         </Layout>
       </MantineProvider>

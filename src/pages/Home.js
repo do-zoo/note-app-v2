@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import ModalDelete from "../components/Modals/ModalDelete";
 import NoItem from "../components/NoItem";
 import NoteList from "../components/NoteList";
 import { TopMenuHome } from "../components/TopMenu";
 import {
   addNote,
   archiveNote,
-  deleteNote,
   getActiveNotes,
   getAllNotes,
 } from "../utils/local-data";
@@ -17,6 +17,9 @@ export default function Home() {
   const [notes, setNotes] = React.useState(getActiveNotes() || []);
   const [searchParams, setSearchParams] = useSearchParams();
   const keyword = searchParams.get("search") || "";
+
+  const [deleteId, setDeleteId] = React.useState("");
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = React.useState(false);
 
   useEffect(() => {
     if (keyword === "") {
@@ -43,8 +46,14 @@ export default function Home() {
     setMode("search");
   };
 
-  const handleDeleteNote = (id) => {
-    deleteNote(id);
+  const handleOpenModalDelete = (id) => {
+    setDeleteId(id);
+    setIsModalDeleteOpen(true);
+  };
+
+  const handleCloseModalDelete = () => {
+    setIsModalDeleteOpen(false);
+    setDeleteId("");
     setNotes(getActiveNotes());
   };
 
@@ -77,10 +86,15 @@ export default function Home() {
         title={renderMode(mode)}
         onCreate={handleAddNote}
       />
+      <ModalDelete
+        isOpen={isModalDeleteOpen}
+        onClose={handleCloseModalDelete}
+        id={deleteId}
+      />
       {notes.length > 0 ? (
         <NoteList
           notes={notes}
-          onDelete={handleDeleteNote}
+          onDelete={handleOpenModalDelete}
           onArchive={handleArchiveNote}
         />
       ) : (

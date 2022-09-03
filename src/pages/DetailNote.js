@@ -1,11 +1,10 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DetailNoteComp from "../components/DetailNote";
+import ModalDelete from "../components/Modals/ModalDelete";
 import { TopMenuDetail } from "../components/TopMenu";
 import {
   archiveNote,
-  deleteNote,
   editNote,
   getNote,
   unarchiveNote,
@@ -17,7 +16,8 @@ function DetailNote() {
   const note = getNote(params?.noteId);
   const [title, setTitle] = React.useState(note?.title);
   const [body, setBody] = React.useState(note?.body);
-
+  const [deleteId, setDeleteId] = React.useState("");
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = React.useState(false);
   const [isContentChanged, setIsContentChanged] = React.useState(false);
 
   useEffect(() => {
@@ -30,8 +30,13 @@ function DetailNote() {
   }
 
   const handleDeleteNote = (id) => {
-    deleteNote(id);
-    navigate("/", { replace: true });
+    setDeleteId(id);
+    setIsModalDeleteOpen(true);
+  };
+
+  const handleCloseModalDelete = () => {
+    setIsModalDeleteOpen(false);
+    setDeleteId("");
   };
 
   const handleArchiveNote = (id) => {
@@ -79,6 +84,11 @@ function DetailNote() {
         title={title}
         onTitleChange={handleTitleChange}
         onBodyChange={handleBodyChange}
+      />
+      <ModalDelete
+        isOpen={isModalDeleteOpen}
+        id={deleteId}
+        onClose={handleCloseModalDelete}
       />
     </>
   );
