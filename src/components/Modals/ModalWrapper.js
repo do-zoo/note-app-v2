@@ -1,5 +1,6 @@
 import { Modal } from "@mantine/core";
 import React from "react";
+import PropTypes from "prop-types";
 
 export default function ModalWrapper({ children, isOpen, title, onClose }) {
   return (
@@ -30,3 +31,10 @@ export default function ModalWrapper({ children, isOpen, title, onClose }) {
     </Modal>
   );
 }
+
+ModalWrapper.propTypes = {
+  children: PropTypes.node,
+  isOpen: PropTypes.bool,
+  title: PropTypes.string,
+  onClose: PropTypes.func,
+};

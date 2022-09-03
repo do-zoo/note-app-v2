@@ -172,4 +172,5 @@ TopMenuHome.propTypes = {
   onSearch: PropTypes.func.isRequired,
   keyword: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  onCreate: PropTypes.func.isRequired,
 };

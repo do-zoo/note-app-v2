@@ -1,4 +1,5 @@
 import { ActionIcon, Box, Space, Text } from "@mantine/core";
+import PropTypes from "prop-types";
 import React from "react";
 import { TbCheck } from "react-icons/tb";
 import { BodyInput, TitleInput } from "../Inputs";
@@ -53,3 +54,9 @@ export default function ModalCreateNote({ isOpen, onClose, onSubmit }) {
     </ModalWrapper>
   );
 }
+
+ModalCreateNote.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  onSubmit: PropTypes.func,
+};
