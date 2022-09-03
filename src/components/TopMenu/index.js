@@ -1,7 +1,7 @@
 import { ActionIcon, Box, Grid, Group, TextInput, Title } from "@mantine/core";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { TbArchive, TbPlus, TbSearch, TbTrash } from "react-icons/tb";
+import { TbArchive, TbCheck, TbPlus, TbSearch, TbTrash } from "react-icons/tb";
 import ModalCreateNote from "../Modals/ModalCreateNote";
 import useStyles from "./styles";
 
@@ -9,29 +9,43 @@ export function TopMenuDetail() {
   const { classes } = useStyles();
   return (
     <Box className={classes.topBar}>
-      <Group position="right">
-        <ActionIcon
-          variant="filled"
-          color={"secondary"}
-          title="Archive"
-          sx={{
-            width: "2.5rem",
-            height: "2.5rem",
-          }}
-        >
-          <TbArchive size={"1.8rem"} />
-        </ActionIcon>
-        <ActionIcon
-          variant="filled"
-          color={"danger"}
-          title="Delete"
-          sx={{
-            width: "2.5rem",
-            height: "2.5rem",
-          }}
-        >
-          <TbTrash size={"1.8rem"} />
-        </ActionIcon>
+      <Group position="apart">
+        <Title order={3}>Mode Edit</Title>
+
+        <Group position="right">
+          <ActionIcon
+            variant="filled"
+            color={"danger"}
+            title="Delete"
+            sx={{
+              width: "2.5rem",
+              height: "2.5rem",
+            }}
+          >
+            <TbTrash size={"1.8rem"} />
+          </ActionIcon>
+          <ActionIcon
+            variant="filled"
+            color={"secondary"}
+            title="Archive"
+            sx={{
+              width: "2.5rem",
+              height: "2.5rem",
+            }}
+          >
+            <TbArchive size={"1.8rem"} />
+          </ActionIcon>{" "}
+          <ActionIcon
+            style={{
+              width: "2.5rem",
+              height: "2.5rem",
+            }}
+            color="tertiary"
+            variant="filled"
+          >
+            <TbCheck size={"1.5rem"} />
+          </ActionIcon>
+        </Group>
       </Group>
     </Box>
   );
@@ -40,7 +54,6 @@ export function TopMenuDetail() {
 TopMenuDetail.propTypes = {};
 
 export const TopMenuHome = ({ onSearch, keyword }) => {
-  console.log("aku top menu home");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { classes } = useStyles();
 
