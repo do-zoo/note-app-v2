@@ -22,7 +22,7 @@ TitleInput.propTypes = {
   value: PropTypes.string,
 };
 
-const BodyInput = ({ onChange, value }) => {
+const BodyInput = ({ onChange, defaultValue }) => {
   const { classes } = useStyles();
   return (
     <Text
@@ -34,7 +34,7 @@ const BodyInput = ({ onChange, value }) => {
         minHeight: "300px",
         overflowY: "auto",
       }}
-      dangerouslySetInnerHTML={{ __html: value ?? "" }}
+      dangerouslySetInnerHTML={{ __html: defaultValue }}
       onInput={onChange}
     />
   );
@@ -42,7 +42,7 @@ const BodyInput = ({ onChange, value }) => {
 
 BodyInput.propTypes = {
   onChange: PropTypes.func,
-  value: PropTypes.string,
+  defaultValue: PropTypes.string,
 };
 
 export { TitleInput, BodyInput };

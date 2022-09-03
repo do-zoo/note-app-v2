@@ -1,21 +1,38 @@
-import { ActionIcon, Box, Space } from "@mantine/core";
+import { ActionIcon, Box, Space, Text } from "@mantine/core";
+import React from "react";
 import { TbCheck } from "react-icons/tb";
 import { BodyInput, TitleInput } from "../Inputs";
 import ModalWrapper from "./ModalWrapper";
 
 export default function ModalCreateNote({ isOpen, onClose, onSubmit }) {
+  const [title, setTitle] = React.useState("");
+  const [body, setBody] = React.useState("");
+  const [error, setError] = React.useState(false);
+  const handleSubmit = () => {
+    if (title.trim() === "" || body.trim() === "") {
+      setError(true);
+      return;
+    }
+
+    onSubmit({ title, body });
+    setTitle("");
+    setBody("");
+  };
+
   return (
     <ModalWrapper isOpen={isOpen} title={"Create Note"} onClose={onClose}>
       <Box>
         <TitleInput
-        // defaultValue={data.title ?? ""}
-        // onChange={onInputTitle}
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
         />
         <Space h="sm"></Space>
         <BodyInput
-        // dangerouslySetInnerHTML={{ __html: data.body ?? "" }}
-        // ={data.body ?? ""}
-        // onInput={onInputBody}
+          onChange={(e) => {
+            setBody(e.target.textContent);
+          }}
         />
       </Box>
       <ActionIcon
@@ -28,9 +45,11 @@ export default function ModalCreateNote({ isOpen, onClose, onSubmit }) {
         }}
         color="tertiary"
         variant="filled"
+        onClick={handleSubmit}
       >
         <TbCheck size={"1.5rem"} />
       </ActionIcon>
+      {error && <Text color="danger">oops... Input Tidak Boleh Kosong.</Text>}
     </ModalWrapper>
   );
 }

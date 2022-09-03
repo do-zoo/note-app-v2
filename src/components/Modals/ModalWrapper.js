@@ -13,7 +13,7 @@ export default function ModalWrapper({ children, isOpen, title, onClose }) {
             theme.colorScheme === "dark"
               ? theme.colors["primary"][5]
               : theme.colors["primary"][4],
-          color: theme.colors["tertiary"][6],
+          color: theme.colors["tertiary"][8],
         },
         title: {
           fontSize: theme.fontSizes.lg,

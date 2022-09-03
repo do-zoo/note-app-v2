@@ -9,12 +9,21 @@ import {
 } from "@mantine/core";
 import PropTypes from "prop-types";
 import React from "react";
-import { TbArchive, TbDots, TbTrash } from "react-icons/tb";
+import { TbArchive, TbArchiveOff, TbDots, TbTrash } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { showFormattedDate } from "../../utils";
 import useStyles from "./styles";
 
-function NoteCard({ title, body, createdAt, id }) {
+function NoteCard({
+  title,
+  body,
+  createdAt,
+  id,
+  isArchived,
+  onDelete,
+  onArchive,
+  onUnarchive,
+}) {
   const { classes } = useStyles();
 
   return (
@@ -32,9 +41,33 @@ function NoteCard({ title, body, createdAt, id }) {
             </Menu.Target>
 
             <Menu.Dropdown>
-              <Menu.Item icon={<TbArchive size={14} />}>Archive</Menu.Item>
-              <Menu.Item icon={<TbTrash size={14} />} color="red">
-                Delete
+              {isArchived ? (
+                <Menu.Item
+                  icon={<TbArchiveOff size={14} />}
+                  onClick={() => {
+                    onUnarchive(id);
+                  }}
+                >
+                  urungkan arsip
+                </Menu.Item>
+              ) : (
+                <Menu.Item
+                  icon={<TbArchive size={14} />}
+                  onClick={() => {
+                    onArchive(id);
+                  }}
+                >
+                  Arsipkan
+                </Menu.Item>
+              )}
+              <Menu.Item
+                icon={<TbTrash size={14} />}
+                onClick={() => {
+                  onDelete(id);
+                }}
+                color="red"
+              >
+                Hapus
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
@@ -57,6 +90,10 @@ NoteCard.propTypes = {
   createdAt: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  isArchived: PropTypes.bool,
+  onDelete: PropTypes.func,
+  onArchive: PropTypes.func,
+  onUnarchive: PropTypes.func,
 };
 
 export default NoteCard;

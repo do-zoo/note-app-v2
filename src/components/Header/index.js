@@ -62,6 +62,8 @@ const Header = () => {
                   variant="filled"
                   color={"secondary"}
                   title="Archive"
+                  component={Link}
+                  to="/archived"
                 >
                   <TbArchive size={"1.8rem"} />
                 </ActionIcon>

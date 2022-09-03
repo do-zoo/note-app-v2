@@ -3,6 +3,8 @@ import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout";
 import theme from "../config/theme";
+import NotFound from "./404";
+import Archived from "./Archived";
 import DetailNote from "./DetailNote";
 import Home from "./Home";
 
@@ -33,7 +35,9 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/archived" element={<Archived />} />
             <Route path="/:noteId" element={<DetailNote />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
       </MantineProvider>

@@ -4,16 +4,16 @@ import React from "react";
 import { BodyInput, TitleInput } from "../Inputs";
 import useStyles from "./styles";
 
-function DetailNoteComp({ body, createdAt, title }) {
+function DetailNoteComp({ body, title, onTitleChange, onBodyChange }) {
   const { classes } = useStyles();
   return (
     <Box className={classes.DetailNote}>
       <Card shadow={"sm"} color={"secondary"} className={classes.card}>
         <Card.Section inheritPadding py="xs">
-          <TitleInput value={title} />
+          <TitleInput value={title} onChange={onTitleChange} />
         </Card.Section>
         <Space h="sm"></Space>
-        <BodyInput value={body} />
+        <BodyInput defaultValue={body} onChange={onBodyChange} />
       </Card>
     </Box>
   );
@@ -23,5 +23,7 @@ DetailNoteComp.propTypes = {
   body: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  onTitleChange: PropTypes.func.isRequired,
+  onBodyChange: PropTypes.func.isRequired,
 };
 export default DetailNoteComp;
