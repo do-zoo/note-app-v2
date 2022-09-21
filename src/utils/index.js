@@ -8,4 +8,9 @@ const showFormattedDate = (date) => {
   return new Date(date).toLocaleDateString("id-ID", options);
 };
 
-export { showFormattedDate };
+const isEmail = (email) => {
+  const re = /\S+@\S+\.\S+/;
+  return re.test(email);
+};
+
+export { showFormattedDate, isEmail };
