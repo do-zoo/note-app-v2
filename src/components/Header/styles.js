@@ -9,7 +9,7 @@ const useStyles = createStyles((theme) => ({
     height: "100%",
   },
   groupHeader: {
-    height: "100%",
+    height: "72px",
   },
   buttonNav: {
     width: "2.5rem",

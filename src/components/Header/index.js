@@ -12,6 +12,7 @@ import React from "react";
 import { MdOutlineEventNote } from "react-icons/md";
 import { TbArchive, TbArrowLeft, TbMoon, TbSun } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
+import NetworkStatus from "../NetworkStatus";
 import useStyles from "./styles";
 
 const Header = () => {
@@ -21,7 +22,8 @@ const Header = () => {
 
   const dark = colorScheme === "dark";
   return (
-    <MantineHeader height={72} className={classes.header}>
+    <MantineHeader height={"100%"} className={classes.header}>
+      <NetworkStatus />
       <Container className={classes.containerHeader}>
         <Group
           align={"center"}

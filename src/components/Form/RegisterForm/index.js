@@ -1,5 +1,18 @@
-import { Box, Button, PasswordInput, Stack, TextInput } from "@mantine/core";
+import {
+  Box,
+  Button,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import React, { useState } from "react";
+import { login, register } from "../../../services/auth";
+import {
+  emailValidation,
+  nameValidation,
+  passwordValidation,
+} from "../../../utils";
 
 const RegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -7,11 +20,53 @@ const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorName, setErrorName] = useState("");
+  const [errorEmail, setErrorEmail] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
+  const [errorRegister, setErrorRegister] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(!isLoading);
-    console.log(name, email, password, confirmPassword);
+    setIsLoading(true);
+
+    const { isValid: isNameValid, message: nameValidationMessage } =
+      nameValidation(name);
+
+    const { isValid: isEmailValid, message: emailValidationMessage } =
+      emailValidation(email);
+
+    const { isValid: isPasswordValid, message: passwordValidationMessage } =
+      passwordValidation(password, confirmPassword);
+
+    if (isEmailValid && isPasswordValid && isNameValid) {
+      register({ name, email, password }).then((response) => {
+        if (response.status === "success") {
+          login({ email, password }).then((response) => {
+            if (response.status === "success") {
+              localStorage.setItem("token", response.data.token);
+              window.location.href = "/";
+            } else {
+              setErrorRegister(response.message);
+              setIsLoading(false);
+            }
+          });
+        } else {
+          setErrorRegister(response.message);
+          setIsLoading(false);
+        }
+      });
+    } else {
+      if (!isEmailValid) {
+        setErrorEmail(emailValidationMessage);
+      }
+      if (!isPasswordValid) {
+        setErrorPassword(passwordValidationMessage);
+      }
+      if (!isNameValid) {
+        setErrorName(nameValidationMessage);
+      }
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -24,16 +79,29 @@ const RegisterForm = () => {
             name="name"
             value={name}
             withAsterisk
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              setErrorName("");
+              setErrorRegister("");
+            }}
+            {...(errorName && {
+              error: errorName,
+            })}
           />
           <TextInput
             placeholder="Masukan email"
             label="email"
             name="email"
-            type={"email"}
             value={email}
             withAsterisk
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErrorEmail("");
+              setErrorRegister("");
+            }}
+            {...(errorEmail && {
+              error: errorEmail,
+            })}
           />
           <PasswordInput
             placeholder="Masukan password"
@@ -41,7 +109,14 @@ const RegisterForm = () => {
             name="password"
             value={password}
             withAsterisk
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setErrorPassword("");
+              setErrorRegister("");
+            }}
+            {...(errorPassword && {
+              error: errorPassword,
+            })}
           />
           <PasswordInput
             placeholder="Masukan ulang password"
@@ -49,9 +124,26 @@ const RegisterForm = () => {
             name="password_confirmation"
             value={confirmPassword}
             withAsterisk
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              setErrorPassword("");
+              setErrorRegister("");
+            }}
+            {...(errorPassword && {
+              error: errorPassword,
+            })}
           />
-          <Button loading={isLoading} mt="sm" fullWidth type="submit">
+          {errorRegister && (
+            <Text size="xs" color="red" align="center">
+              {errorRegister}
+            </Text>
+          )}
+          <Button
+            loading={isLoading}
+            mt={errorRegister ? 0 : "sm"}
+            fullWidth
+            type="submit"
+          >
             {isLoading ? "Sedang Memuat" : "Daftar"}
           </Button>
         </Stack>
