@@ -84,7 +84,7 @@ const Header = () => {
           </Box>
           <Box>
             <Group position="right" spacing={isDesktop ? "xl" : "sm"}>
-              {pathname === "/" && (
+              {pathname === "/" && session?.isAuth && (
                 <>
                   <ActionIcon
                     className={classes.buttonNav}
