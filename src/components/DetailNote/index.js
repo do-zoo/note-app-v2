@@ -1,19 +1,24 @@
-import { Box, Card, Space } from "@mantine/core";
+import { Box, Card, Group, Space, Text, Title } from "@mantine/core";
 import PropTypes from "prop-types";
 import React from "react";
-import { BodyInput, TitleInput } from "../Inputs";
+import { showFormattedDate } from "../../utils";
 import useStyles from "./styles";
 
-function DetailNoteComp({ body, title, onTitleChange, onBodyChange }) {
+function DetailNoteComp({ body, title, createdAt }) {
   const { classes } = useStyles();
   return (
     <Box className={classes.DetailNote}>
       <Card shadow={"sm"} color={"secondary"} className={classes.card}>
         <Card.Section inheritPadding py="xs">
-          <TitleInput value={title} onChange={onTitleChange} />
+          <Group position="apart">
+            <Title order={4}>{title}</Title>
+            <Text align="right" weight={300} size="sm">
+              {showFormattedDate(createdAt)}
+            </Text>
+          </Group>
         </Card.Section>
-        <Space h="sm"></Space>
-        <BodyInput defaultValue={body} onChange={onBodyChange} />
+        <Space h="sm" />
+        <Text className={classes.body}>{body}</Text>
       </Card>
     </Box>
   );
@@ -21,9 +26,7 @@ function DetailNoteComp({ body, title, onTitleChange, onBodyChange }) {
 
 DetailNoteComp.propTypes = {
   body: PropTypes.string.isRequired,
-  createdAt: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  onTitleChange: PropTypes.func.isRequired,
-  onBodyChange: PropTypes.func.isRequired,
+  createdAt: PropTypes.string.isRequired,
 };
 export default DetailNoteComp;

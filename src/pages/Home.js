@@ -7,25 +7,23 @@ import NoteList from "../components/NoteList";
 import { TopMenuHome } from "../components/TopMenu";
 import useActiveNotes from "../hooks/useActiveNotes";
 import useAllNotes from "../hooks/useAllNotes";
-import { addNote, archiveNote } from "../utils/local-data";
+import { addNote, archiveNote } from "../services/api/notes";
 
 export default function Home() {
-  const { notes: activeNote, status: activeNoteStatus } = useActiveNotes();
-  const { notes: AllNotes, status: AllNotesStatus } = useAllNotes();
+  const {
+    notes: activeNote,
+    status: activeNoteStatus,
+    setIsRefetch,
+  } = useActiveNotes();
+  const { notes: AllNotes } = useAllNotes();
   const [mode, setMode] = React.useState("active notes");
 
-  const [notes, setNotes] = React.useState([]);
+  const [notes, setNotes] = React.useState(activeNote);
   const [searchParams, setSearchParams] = useSearchParams();
   const keyword = searchParams.get("search") || "";
 
   const [deleteId, setDeleteId] = React.useState("");
   const [isModalDeleteOpen, setIsModalDeleteOpen] = React.useState(false);
-
-  useEffect(() => {
-    if (activeNote) {
-      setNotes(activeNote);
-    }
-  }, [activeNote]);
 
   useEffect(() => {
     if (keyword === "") {
@@ -64,12 +62,15 @@ export default function Home() {
   };
 
   const handleArchiveNote = (id) => {
-    archiveNote(id);
-    // setNotes(getActiveNotes());
+    archiveNote(id).then(() => {
+      setIsRefetch(true);
+    });
   };
 
   const handleAddNote = (data) => {
-    addNote(data);
+    addNote(data).then(() => {
+      setIsRefetch(true);
+    });
     // setNotes(getActiveNotes());
   };
 
@@ -96,6 +97,7 @@ export default function Home() {
         isOpen={isModalDeleteOpen}
         onClose={handleCloseModalDelete}
         id={deleteId}
+        handleReFetch={() => setIsRefetch(true)}
       />
 
       <Box

@@ -24,13 +24,14 @@ function NoteCard({
   onArchive,
   onUnarchive,
 }) {
+  console.log(id);
   const { classes } = useStyles();
 
   return (
     <Card shadow={"sm"} color={"secondary"} className={classes.card}>
       <Card.Section inheritPadding py="xs">
         <Group position="apart">
-          <Anchor component={Link} to={`${id}`} className={classes.title}>
+          <Anchor component={Link} to={`/${id}`} className={classes.title}>
             <Title order={4}>{title}</Title>
           </Anchor>
           <Menu withinPortal position="bottom-end" shadow="sm">

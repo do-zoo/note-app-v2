@@ -36,7 +36,7 @@ function App() {
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
-  const { session, status } = useSession();
+  const { status } = useSession();
 
   const contextValue = useMemo(() => {
     return {

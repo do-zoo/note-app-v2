@@ -12,6 +12,9 @@ const useStyles = createStyles((theme) => ({
         : theme.colors["primary"][4],
     color: theme.colors["tertiary"][6],
   },
+  body: {
+    minHeight: "calc(100vh - 300px)",
+  },
 }));
 
 export default useStyles;

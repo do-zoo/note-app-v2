@@ -1,23 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
-import { getActiveNotes } from "../services/api/notes";
+import { getNote } from "../services/api/notes";
 
-const useActiveNotes = () => {
-  const [notes, setNotes] = useState([]);
+const useNote = (id) => {
+  const [note, setNote] = useState(null);
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
   const [isRefetch, setIsRefetch] = useState(true);
 
   const getNotes = useCallback(() => {
-    getActiveNotes().then((res) => {
+    getNote(id).then((res) => {
       setStatus(res.status);
       setMessage(res.message);
-      setNotes(res.data);
+      setNote(res.data);
       setIsRefetch(false);
     });
-  }, []);
+  }, [id]);
 
   useEffect(() => {
-    if (isRefetch) {
+    if (id || isRefetch) {
       setStatus("loading");
       const timeout = setTimeout(getNotes, 2000);
       return () => {
@@ -25,9 +25,9 @@ const useActiveNotes = () => {
         clearTimeout(timeout);
       };
     }
-  }, [getNotes, isRefetch]);
+  }, [getNotes, isRefetch, id]);
 
-  return { notes, setIsRefetch, status, message };
+  return { note, setIsRefetch, status, message };
 };
 
-export default useActiveNotes;
+export default useNote;

@@ -12,6 +12,7 @@ const useAllNotes = () => {
       setMessage(resActive.message);
       setNotes((prevNotes) => [...prevNotes, ...resActive.data]);
       getArchivedNotes().then((resArchive) => {
+        setStatus(resArchive.status);
         setMessage(resArchive.message);
         setNotes((prevNotes) => [...prevNotes, ...resArchive.data]);
         setIsRefetch(false);
@@ -21,6 +22,7 @@ const useAllNotes = () => {
 
   useEffect(() => {
     if (isRefetch) {
+      setStatus("loading");
       const timeout = setTimeout(activeNotes, 2000);
       return () => {
         setStatus("success");

@@ -4,13 +4,13 @@ import { Box, Grid } from "@mantine/core";
 import NoteCard from "../Card/NoteCard";
 
 const NoteList = ({ notes, onArchive, onDelete, onUnarchive }) => {
+  console.log(notes);
   return (
     <Box
       sx={{
         paddingTop: "1rem",
         paddingBottom: "1rem",
         position: "relative",
-        minHeight: "100vh",
       }}
     >
       <Grid align={"stretch"}>

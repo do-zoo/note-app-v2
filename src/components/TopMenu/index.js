@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import {
   TbArchive,
   TbArchiveOff,
-  TbCheck,
   TbPlus,
   TbSearch,
   TbTrash,
@@ -12,20 +11,12 @@ import {
 import ModalCreateNote from "../Modals/ModalCreateNote";
 import useStyles from "./styles";
 
-export function TopMenuDetail({
-  id,
-  isArchive,
-  onArchive,
-  onUnarchive,
-  onDelete,
-  onUpdate,
-  isChanged,
-}) {
+export function TopMenuDetail({ isArchive, onArchive, onUnarchive, onDelete }) {
   const { classes } = useStyles();
   return (
     <Box className={classes.topBar}>
       <Group position="apart">
-        <Title order={3}>Mode Edit</Title>
+        <Title order={3}>Detail Note</Title>
 
         <Group position="right">
           <ActionIcon
@@ -70,19 +61,6 @@ export function TopMenuDetail({
               </ActionIcon>
             )
           }
-          <ActionIcon
-            style={{
-              width: "2.5rem",
-              height: "2.5rem",
-            }}
-            color="tertiary"
-            variant="filled"
-            title="Update"
-            disabled={!isChanged}
-            onClick={onUpdate}
-          >
-            <TbCheck size={"1.5rem"} />
-          </ActionIcon>
         </Group>
       </Group>
     </Box>
@@ -95,8 +73,6 @@ TopMenuDetail.propTypes = {
   onDelete: PropTypes.func,
   onArchive: PropTypes.func,
   onUnArchive: PropTypes.func,
-  onUpdate: PropTypes.func,
-  isChanged: PropTypes.bool,
 };
 
 export function TopMenuArchived() {
