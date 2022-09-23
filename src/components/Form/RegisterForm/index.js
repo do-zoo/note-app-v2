@@ -127,7 +127,7 @@ const RegisterForm = () => {
           />
           <PasswordInput
             placeholder={
-              locale === "id" ? "Masukan kata sandi" : "Input kata sandi"
+              locale === "id" ? "Masukan kata sandi" : "Input password"
             }
             label={locale === "id" ? "Kata sandi" : "Password"}
             name="password"
