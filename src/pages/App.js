@@ -1,8 +1,14 @@
-import { ColorSchemeProvider, MantineProvider } from "@mantine/core";
+import {
+  Box,
+  ColorSchemeProvider,
+  LoadingOverlay,
+  MantineProvider,
+} from "@mantine/core";
 import { useColorScheme, useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout";
 import theme from "../config/theme";
+import useSession from "../hooks/useSession";
 import NotFound from "./404";
 import Archived from "./Archived";
 import DetailNote from "./DetailNote";
@@ -17,10 +23,13 @@ function App() {
     defaultValue: preferredColorScheme,
     getInitialValueInEffect: true,
   });
-
-  useHotkeys([["mod+J", () => toggleColorScheme()]]);
   const toggleColorScheme = (value) =>
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+
+  useHotkeys([["mod+J", () => toggleColorScheme()]]);
+
+  const { session, status } = useSession();
+
   return (
     <ColorSchemeProvider
       colorScheme={colorScheme}
@@ -34,17 +43,28 @@ function App() {
           colorScheme,
         }}
       >
+        <LoadingOverlay
+          visible={status === "loading"}
+          overlayBlur={100}
+          loaderProps={{
+            variant: "bars",
+          }}
+        />
         <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/archived" element={<Archived />} />
-            <Route path="/:noteId" element={<DetailNote />} />
-            <Route path="/404" element={<NotFound />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-
-            <Route path="*" element={<Navigate to="/404" replace />} />
-          </Routes>
+          {status === "success" ? (
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/archived" element={<Archived />} />
+              <Route path="/:noteId" element={<DetailNote />} />
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<Navigate to="/404" replace />} />
+            </Routes>
+          ) : (
+            <Routes>
+              <Route path="/*" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          )}
         </Layout>
       </MantineProvider>
     </ColorSchemeProvider>

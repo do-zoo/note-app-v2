@@ -31,7 +31,7 @@ const Header = () => {
           className={classes.groupHeader}
         >
           <Box>
-            {pathname === "/" || pathname === "/login" ? (
+            {pathname === "/" ? (
               <Group>
                 <MdOutlineEventNote size={36} />
                 <MediaQuery

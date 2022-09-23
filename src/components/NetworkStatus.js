@@ -30,8 +30,6 @@ function NetworkStatus() {
     }
   }, [online, count]);
 
-  console.log(count);
-
   if (isReadyOnline && isOnline) {
     return (
       <Box

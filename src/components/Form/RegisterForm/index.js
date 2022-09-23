@@ -7,6 +7,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { login, register } from "../../../services/auth";
 import {
   emailValidation,
@@ -15,6 +16,7 @@ import {
 } from "../../../utils";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -43,8 +45,9 @@ const RegisterForm = () => {
         if (response.status === "success") {
           login({ email, password }).then((response) => {
             if (response.status === "success") {
-              localStorage.setItem("token", response.data.token);
-              window.location.href = "/";
+              console.log(response);
+              localStorage.setItem("accessToken", response.data.accessToken);
+              navigate("/");
             } else {
               setErrorRegister(response.message);
               setIsLoading(false);
