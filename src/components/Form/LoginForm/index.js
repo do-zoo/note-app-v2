@@ -76,7 +76,7 @@ const LoginForm = () => {
           />
           <PasswordInput
             placeholder={
-              locale === "id" ? "Masukan password" : "input password"
+              locale === "id" ? "Masukan kata sandi" : "input password"
             }
             label={locale === "id" ? "Kata sandi" : "Password"}
             name="password"

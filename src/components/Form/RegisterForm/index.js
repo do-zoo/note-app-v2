@@ -146,7 +146,9 @@ const RegisterForm = () => {
             placeholder={
               locale === "id" ? "Masukan ulang kata sandi" : "re-enter password"
             }
-            label={locale === "id" ? "konfirmasi password" : "confirm password"}
+            label={
+              locale === "id" ? "konfirmasi kata sandi" : "confirm password"
+            }
             name="password_confirmation"
             value={confirmPassword}
             withAsterisk
