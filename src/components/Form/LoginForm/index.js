@@ -61,7 +61,7 @@ const LoginForm = () => {
         <Stack>
           <TextInput
             placeholder={locale === "id" ? "Masukan email" : "Input email"}
-            label="email"
+            label="Email"
             name="email"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -76,7 +76,7 @@ const LoginForm = () => {
           />
           <PasswordInput
             placeholder={
-              locale === "id" ? "Masukan kata sandi" : "input password"
+              locale === "id" ? "Masukan kata sandi" : "Input password"
             }
             label={locale === "id" ? "Kata sandi" : "Password"}
             name="password"

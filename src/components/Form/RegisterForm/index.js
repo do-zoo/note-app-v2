@@ -112,7 +112,7 @@ const RegisterForm = () => {
           />
           <TextInput
             placeholder={locale === "id" ? "Masukan email" : "Input email"}
-            label="email"
+            label="Email"
             name="email"
             value={email}
             withAsterisk
@@ -144,10 +144,10 @@ const RegisterForm = () => {
           />
           <PasswordInput
             placeholder={
-              locale === "id" ? "Masukan ulang kata sandi" : "re-enter password"
+              locale === "id" ? "Masukan ulang kata sandi" : "Re-enter password"
             }
             label={
-              locale === "id" ? "konfirmasi kata sandi" : "confirm password"
+              locale === "id" ? "Konfirmasi kata sandi" : "Confirm password"
             }
             name="password_confirmation"
             value={confirmPassword}
