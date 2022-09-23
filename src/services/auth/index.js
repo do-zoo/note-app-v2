@@ -47,9 +47,14 @@ export async function register({ name, email, password }) {
   return responseJson;
 }
 
-export async function getUserLogged() {
-  const response = await fetchWithToken(`${BASE_URL}/users/me`);
+export async function getUserLogged(token) {
+  const response = await fetchWithToken(`${BASE_URL}/users/me`, {
+    headers: {
+      Authorization: `Bearer ${token ?? getAccessToken()}`,
+    },
+  });
   const responseJson = await response.json();
 
+  console.log(responseJson);
   return responseJson;
 }

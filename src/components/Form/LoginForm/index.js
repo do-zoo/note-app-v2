@@ -26,10 +26,9 @@ const LoginForm = () => {
       emailValidation(email);
     if (isEmailValid) {
       login({ email, password }).then((response) => {
-        setIsLoading(false);
         if (response.status === "success") {
           localStorage.setItem("accessToken", response.data.accessToken);
-          navigate("/");
+          window.location = "/";
         } else {
           setErrorLogin(response.message);
           setIsLoading(false);

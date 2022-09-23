@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getUserLogged } from "../services/auth";
 
 const useSession = () => {
@@ -6,18 +6,24 @@ const useSession = () => {
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
 
+  const getUser = useCallback(() => {
+    getUserLogged().then((res) => {
+      setStatus(res.status);
+      setMessage(res.message);
+      setSession(res.data);
+      if (res.status === "fail") {
+        localStorage.setItem("accessToken", "");
+      }
+    });
+  }, []);
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      getUserLogged().then((res) => {
-        setStatus(res.status);
-        setMessage(res.message);
-        setSession(res.data);
-      });
-    }, 3000);
+    const timeout = setTimeout(getUser, 3000);
+    window.addEventListener("storage", getUser);
     return () => {
       clearTimeout(timeout);
+      window.removeEventListener("storage", getUser);
     };
-  }, []);
+  }, [getUser]);
 
   return { session, status, message };
 };
