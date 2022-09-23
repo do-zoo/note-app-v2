@@ -4,7 +4,6 @@ import { Box, Grid } from "@mantine/core";
 import NoteCard from "../Card/NoteCard";
 
 const NoteList = ({ notes, onArchive, onDelete, onUnarchive }) => {
-  console.log(notes);
   return (
     <Box
       sx={{

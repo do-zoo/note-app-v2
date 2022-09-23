@@ -27,7 +27,6 @@ function NotFound() {
     }
   }, [count]);
 
-  console.log(count);
   return (
     <>
       <Stack align={"center"}>

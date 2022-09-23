@@ -76,7 +76,6 @@ const RegisterForm = () => {
         if (response.status === "success") {
           login({ email, password }).then((response) => {
             if (response.status === "success") {
-              console.log(response);
               putAccessToken(response.data.accessToken);
               window.location = "/";
             } else {
@@ -92,7 +91,6 @@ const RegisterForm = () => {
     }
   };
 
-  // console.log(errorName ?? "");
   return (
     <Box>
       <form onSubmit={onSubmit}>
