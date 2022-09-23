@@ -1,20 +1,20 @@
+import { Box, LoadingOverlay } from "@mantine/core";
 import React, { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import ModalDelete from "../components/Modals/ModalDelete";
 import NoItem from "../components/NoItem";
 import NoteList from "../components/NoteList";
 import { TopMenuHome } from "../components/TopMenu";
-import {
-  addNote,
-  archiveNote,
-  getActiveNotes,
-  getAllNotes,
-} from "../utils/local-data";
+import useActiveNotes from "../hooks/useActiveNotes";
+import useAllNotes from "../hooks/useAllNotes";
+import { addNote, archiveNote } from "../utils/local-data";
 
 export default function Home() {
+  const { notes: activeNote, status: activeNoteStatus } = useActiveNotes();
+  const { notes: AllNotes, status: AllNotesStatus } = useAllNotes();
   const [mode, setMode] = React.useState("active notes");
 
-  const [notes, setNotes] = React.useState(getActiveNotes() || []);
+  const [notes, setNotes] = React.useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const keyword = searchParams.get("search") || "";
 
@@ -22,16 +22,22 @@ export default function Home() {
   const [isModalDeleteOpen, setIsModalDeleteOpen] = React.useState(false);
 
   useEffect(() => {
+    if (activeNote) {
+      setNotes(activeNote);
+    }
+  }, [activeNote]);
+
+  useEffect(() => {
     if (keyword === "") {
       searchParams.delete("search");
       setSearchParams(searchParams);
       setMode("active notes");
-      setNotes(getActiveNotes());
+      setNotes(activeNote);
     }
     if (keyword) {
       setMode("search");
       setNotes(
-        getAllNotes().filter((note) => {
+        AllNotes.filter((note) => {
           return (
             note.title.toLowerCase().includes(keyword.toLowerCase()) ||
             note.body.toLowerCase().includes(keyword.toLowerCase())
@@ -39,7 +45,7 @@ export default function Home() {
         })
       );
     }
-  }, [searchParams, setSearchParams, keyword]);
+  }, [searchParams, setSearchParams, keyword, activeNote, AllNotes]);
 
   const updateSearchMenu = (search) => {
     setSearchParams({ search: search });
@@ -54,17 +60,17 @@ export default function Home() {
   const handleCloseModalDelete = () => {
     setIsModalDeleteOpen(false);
     setDeleteId("");
-    setNotes(getActiveNotes());
+    // setNotes(getActiveNotes());
   };
 
   const handleArchiveNote = (id) => {
     archiveNote(id);
-    setNotes(getActiveNotes());
+    // setNotes(getActiveNotes());
   };
 
   const handleAddNote = (data) => {
     addNote(data);
-    setNotes(getActiveNotes());
+    // setNotes(getActiveNotes());
   };
 
   const renderMode = (mode) => {
@@ -91,21 +97,36 @@ export default function Home() {
         onClose={handleCloseModalDelete}
         id={deleteId}
       />
-      {notes.length > 0 ? (
-        <NoteList
-          notes={notes}
-          onDelete={handleOpenModalDelete}
-          onArchive={handleArchiveNote}
+
+      <Box
+        sx={{
+          position: "relative",
+        }}
+      >
+        <LoadingOverlay
+          visible={activeNoteStatus === "loading"}
+          overlayBlur={100}
+          loaderProps={{
+            variant: "bars",
+          }}
         />
-      ) : (
-        <>
-          {mode === "active notes" ? (
-            <NoItem />
-          ) : (
-            <NoItem text="Tidak ada catatan yang cocok dengan pencarian Anda" />
-          )}
-        </>
-      )}
+
+        {notes?.length > 0 ? (
+          <NoteList
+            notes={notes}
+            onDelete={handleOpenModalDelete}
+            onArchive={handleArchiveNote}
+          />
+        ) : (
+          <>
+            {mode === "active notes" ? (
+              <NoItem />
+            ) : (
+              <NoItem text="Tidak ada catatan yang cocok dengan pencarian Anda" />
+            )}
+          </>
+        )}
+      </Box>
     </>
   );
 }

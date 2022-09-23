@@ -7,7 +7,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import React, { useState } from "react";
-import { login } from "../../../services/auth";
+import { login } from "../../../services/api/auth";
 import { emailValidation, putAccessToken } from "../../../utils";
 
 const LoginForm = () => {

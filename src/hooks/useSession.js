@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { getUserLogged } from "../services/auth";
+import { getUserLogged } from "../services/api/auth";
 import { deleteAccessToken } from "../utils";
 
 const useSession = () => {

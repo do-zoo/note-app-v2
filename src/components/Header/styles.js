@@ -12,8 +12,12 @@ const useStyles = createStyles((theme) => ({
     height: "72px",
   },
   buttonNav: {
-    width: "2.5rem",
-    height: "2.5rem",
+    width: "2rem",
+    height: "2rem",
+    [theme.fn.largerThan("md")]: {
+      width: "2.5rem",
+      height: "2.5rem",
+    },
   },
 }));
 

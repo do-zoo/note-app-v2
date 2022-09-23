@@ -1,21 +1,6 @@
-import { getAccessToken } from "../../utils";
-import BASE_URL from "../baseUrl";
-
-async function fetchWithToken(url, options = {}) {
-  try {
-    return fetch(url, {
-      ...options,
-      headers: {
-        ...options.headers,
-        Authorization: `Bearer ${getAccessToken()}`,
-      },
-    });
-  } catch (error) {
-    console.warn(
-      "useSession could not access the browser storage. Session will be lost when closing browser window"
-    );
-  }
-}
+import { getAccessToken } from "../../../utils";
+import { fetchWithToken } from "../_base";
+import BASE_URL from "../../baseUrl";
 
 export async function login({ email, password }) {
   const response = await fetch(`${BASE_URL}/login`, {

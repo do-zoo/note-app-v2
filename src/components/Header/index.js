@@ -8,21 +8,19 @@ import {
   Group,
   Header as MantineHeader,
   HoverCard,
-  Image,
   MediaQuery,
   Stack,
   Text,
   Title,
   useMantineColorScheme,
 } from "@mantine/core";
-import { US } from "country-flag-icons/react/3x2";
+import { useMediaQuery } from "@mantine/hooks";
 import getUnicodeFlagIcon from "country-flag-icons/unicode";
 import React, { useContext } from "react";
 import { MdOutlineEventNote } from "react-icons/md";
 import {
   TbArchive,
   TbArrowLeft,
-  TbLanguage,
   TbLogout,
   TbMoon,
   TbSun,
@@ -39,6 +37,7 @@ const Header = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const { classes } = useStyles();
 
   const { session } = useSession();
@@ -84,7 +83,7 @@ const Header = () => {
             )}
           </Box>
           <Box>
-            <Group position="right" spacing={"xl"}>
+            <Group position="right" spacing={isDesktop ? "xl" : "sm"}>
               {pathname === "/" && (
                 <>
                   <ActionIcon
@@ -100,7 +99,7 @@ const Header = () => {
                   <Divider orientation="vertical" />
                 </>
               )}
-              <Group>
+              <Group spacing={isDesktop ? "md" : "xs"}>
                 <ActionIcon
                   className={classes.buttonNav}
                   variant="light"
