@@ -7,11 +7,13 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import RegisterForm from "../components/Form/RegisterForm";
+import LocaleContext from "../contexts/LocaleContext";
 
 export default function Register() {
+  const { locale } = useContext(LocaleContext);
   return (
     <Container size={"xs"} py="xl">
       <Stack py={"xl"} spacing="xl">
@@ -21,14 +23,26 @@ export default function Register() {
           }}
         >
           <Title order={3} mb="sm">
-            Selamat datang di Note App
+            {locale === "id"
+              ? "Selamat datang di Note App"
+              : "Welcome to Note App"}
           </Title>
-          <Text>Silahkan daftar terlebih dahulu</Text>
+          <Text>
+            {locale === "id"
+              ? "Silahkan daftar untuk melanjutkan"
+              : "Please register to continue"}
+          </Text>
         </Box>
         <RegisterForm />
-        <Divider my="xs" label="sudah punya akun?" labelPosition="center" />
+        <Divider
+          my="xs"
+          label={
+            locale === "id" ? "sudah punya akun?" : "already have an account?"
+          }
+          labelPosition="center"
+        />
         <Button variant="outline" fullWidth component={Link} to="/login">
-          Masuk
+          {locale === "id" ? "Login sekarang" : "Login now"}
         </Button>
       </Stack>
     </Container>

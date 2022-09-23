@@ -1,9 +1,11 @@
 import { Text } from "@mantine/core";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useContext } from "react";
+import LocaleContext from "../../contexts/LocaleContext";
 import useStyles from "./styles";
 
 const TitleInput = ({ onChange, value }) => {
+  const { locale } = useContext(LocaleContext);
   const { classes } = useStyles();
   return (
     <input
@@ -11,7 +13,9 @@ const TitleInput = ({ onChange, value }) => {
       type={"text"}
       contentEditable="true"
       className={classes.inputTitle}
-      placeholder={"input title here..."}
+      placeholder={
+        locale === "id" ? "Masukan judul disini..." : "Input title here..."
+      }
       defaultValue={value ?? ""}
       onChange={onChange}
     />
@@ -23,6 +27,7 @@ TitleInput.propTypes = {
 };
 
 const BodyInput = ({ onChange, defaultValue }) => {
+  const { locale } = useContext(LocaleContext);
   const { classes } = useStyles();
   return (
     <Text
@@ -30,10 +35,9 @@ const BodyInput = ({ onChange, defaultValue }) => {
       role="textbox"
       contentEditable="true"
       className={classes.inputBody}
-      style={{
-        minHeight: "300px",
-        overflowY: "auto",
-      }}
+      placeholder={
+        locale === "id" ? "Masukan catatan disini..." : "Input note here..."
+      }
       dangerouslySetInnerHTML={{ __html: defaultValue }}
       onInput={onChange}
     />

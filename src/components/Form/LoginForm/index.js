@@ -6,23 +6,43 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import LocaleContext from "../../../contexts/LocaleContext";
 import { login } from "../../../services/api/auth";
-import { emailValidation, putAccessToken } from "../../../utils";
+import {
+  emailValidation,
+  passwordValidation,
+  putAccessToken,
+} from "../../../utils";
 
 const LoginForm = () => {
+  const { locale } = useContext(LocaleContext);
+
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorPassword, setErrorPassword] = useState("");
   const [errorLogin, setErrorLogin] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
     setIsLoading(!isLoading);
+    const { isValid: isPasswordValid, message: passwordValidationMessage } =
+      passwordValidation(password);
     const { isValid: isEmailValid, message: emailValidationMessage } =
       emailValidation(email);
-    if (isEmailValid) {
+
+    if (!isEmailValid || !isPasswordValid) {
+      if (!isPasswordValid) {
+        setErrorPassword(passwordValidationMessage);
+      }
+
+      if (!isEmailValid) {
+        setErrorEmail(emailValidationMessage);
+      }
+      setIsLoading(false);
+    } else {
       login({ email, password }).then((response) => {
         if (response.status === "success") {
           putAccessToken(response.data.accessToken);
@@ -32,9 +52,6 @@ const LoginForm = () => {
           setIsLoading(false);
         }
       });
-    } else {
-      setErrorEmail(emailValidationMessage);
-      setIsLoading(false);
     }
   };
 
@@ -43,7 +60,7 @@ const LoginForm = () => {
       <form onSubmit={onSubmit}>
         <Stack>
           <TextInput
-            placeholder="Masukan email"
+            placeholder={locale === "id" ? "Masukan email" : "input email"}
             label="email"
             name="email"
             onChange={(e) => {
@@ -53,7 +70,7 @@ const LoginForm = () => {
             }}
             value={email}
             {...(errorEmail && {
-              error: errorEmail,
+              error: errorEmail[locale],
             })}
             withAsterisk
           />
@@ -64,14 +81,20 @@ const LoginForm = () => {
             onChange={(e) => {
               setPassword(e.target.value);
               setErrorLogin("");
+              setErrorPassword("");
             }}
             value={password}
+            {...(errorPassword && {
+              error: errorPassword[locale],
+            })}
             withAsterisk
           />
           {/* error global */}
           {errorLogin && (
             <Text size="xs" color="red" align="center">
-              {errorLogin}
+              {locale === "id"
+                ? "Email atau password salah"
+                : "Email or password is wrong"}
             </Text>
           )}
           <Button
@@ -80,7 +103,7 @@ const LoginForm = () => {
             fullWidth
             type="submit"
           >
-            {isLoading ? "Sedang Memuat" : "Masuk"}
+            {isLoading ? "Sedang Memuat" : locale === "id" ? "Masuk" : "Login"}
           </Button>
         </Stack>
       </form>

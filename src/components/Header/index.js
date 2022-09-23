@@ -105,9 +105,11 @@ const Header = () => {
                   variant="light"
                   color={dark ? "yellow" : "blue"}
                   onClick={() => toggleLocale()}
-                  title={`Change to ${
-                    locale === "id" ? "English (US)" : "Indonesia"
-                  }`}
+                  title={
+                    locale === "id"
+                      ? "Ubah ke Bahasa Inggris"
+                      : "Change to  Indonesian "
+                  }
                 >
                   {locale === "id"
                     ? getUnicodeFlagIcon("ID")
@@ -118,7 +120,7 @@ const Header = () => {
                   variant="light"
                   color={dark ? "yellow" : "blue"}
                   onClick={() => toggleColorScheme()}
-                  title="Change color mode"
+                  title={locale === "id" ? "Ganti tema" : "Change theme"}
                 >
                   {dark ? (
                     <TbSun size={"1.8rem"} />
@@ -161,7 +163,7 @@ const Header = () => {
                             color="red"
                             onClick={handleLogout}
                           >
-                            Keluar
+                            {locale === "id" ? "Keluar" : "Logout"}
                           </Button>
                         </Group>
                       </Stack>

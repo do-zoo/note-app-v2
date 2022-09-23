@@ -8,9 +8,10 @@ import {
   Title,
 } from "@mantine/core";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useContext } from "react";
 import { TbArchive, TbArchiveOff, TbDots, TbTrash } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import LocaleContext from "../../contexts/LocaleContext";
 import { showFormattedDate } from "../../utils";
 import useStyles from "./styles";
 
@@ -24,7 +25,7 @@ function NoteCard({
   onArchive,
   onUnarchive,
 }) {
-  console.log(id);
+  const { locale } = useContext(LocaleContext);
   const { classes } = useStyles();
 
   return (
@@ -49,7 +50,7 @@ function NoteCard({
                     onUnarchive(id);
                   }}
                 >
-                  urungkan arsip
+                  {locale === "id" ? "urungkan arsip" : "unarchive"}
                 </Menu.Item>
               ) : (
                 <Menu.Item
@@ -58,7 +59,7 @@ function NoteCard({
                     onArchive(id);
                   }}
                 >
-                  Arsipkan
+                  {locale === "id" ? "arsipkan" : "archive"}
                 </Menu.Item>
               )}
               <Menu.Item
@@ -68,7 +69,7 @@ function NoteCard({
                 }}
                 color="red"
               >
-                Hapus
+                {locale === "id" ? "hapus" : "delete"}
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
@@ -79,7 +80,7 @@ function NoteCard({
       </Text>
       <Card.Section inheritPadding py="xs">
         <Text align="right" weight={300} size="sm">
-          {showFormattedDate(createdAt)}
+          {showFormattedDate(createdAt, locale)}
         </Text>
       </Card.Section>
     </Card>

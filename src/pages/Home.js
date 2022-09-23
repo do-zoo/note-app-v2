@@ -1,15 +1,17 @@
 import { Box, LoadingOverlay } from "@mantine/core";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import ModalDelete from "../components/Modals/ModalDelete";
 import NoItem from "../components/NoItem";
 import NoteList from "../components/NoteList";
 import { TopMenuHome } from "../components/TopMenu";
+import LocaleContext from "../contexts/LocaleContext";
 import useActiveNotes from "../hooks/useActiveNotes";
 import useAllNotes from "../hooks/useAllNotes";
 import { addNote, archiveNote } from "../services/api/notes";
 
 export default function Home() {
+  const { locale } = useContext(LocaleContext);
   const {
     notes: activeNote,
     status: activeNoteStatus,
@@ -122,9 +124,21 @@ export default function Home() {
         ) : (
           <>
             {mode === "active notes" ? (
-              <NoItem />
+              <NoItem
+                text={
+                  locale === "id"
+                    ? "Tidak ada catatan aktif"
+                    : "No active notes"
+                }
+              />
             ) : (
-              <NoItem text="Tidak ada catatan yang cocok dengan pencarian Anda" />
+              <NoItem
+                text={
+                  locale === "id"
+                    ? "Tidak ada catatan yang cocok dengan kata kunci yang Anda cari"
+                    : "No notes match your search keyword"
+                }
+              />
             )}
           </>
         )}

@@ -1,14 +1,16 @@
 import { Box, LoadingOverlay } from "@mantine/core";
-import React from "react";
+import React, { useContext } from "react";
 import { TbArchiveOff } from "react-icons/tb";
 import ModalDelete from "../components/Modals/ModalDelete";
 import NoItem from "../components/NoItem";
 import NoteList from "../components/NoteList";
 import { TopMenuArchived } from "../components/TopMenu";
+import LocaleContext from "../contexts/LocaleContext";
 import useArchiveNotes from "../hooks/useArchiveNotes";
 import { unarchiveNote } from "../services/api/notes";
 
 function Archived() {
+  const { locale } = useContext(LocaleContext);
   const { notes: archivedNotes, status, setIsRefetch } = useArchiveNotes();
   const [isModalDeleteOpen, setIsModalDeleteOpen] = React.useState(false);
   const [deleteId, setDeleteId] = React.useState("");
@@ -61,7 +63,11 @@ function Archived() {
         ) : (
           <NoItem
             icon={<TbArchiveOff size={"3rem"} />}
-            text="Belum ada Catatan yang diarsipkan"
+            text={
+              locale === "id"
+                ? "Tidak ada catatan yang diarsipkan"
+                : "No archived notes"
+            }
           />
         )}
       </Box>

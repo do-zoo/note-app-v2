@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Affix, Box, Button, Container, Transition } from "@mantine/core";
 import Header from "./Header";
 import { TbArrowUp } from "react-icons/tb";
 import { useWindowScroll } from "@mantine/hooks";
+import LocaleContext from "../contexts/LocaleContext";
 
 const Layout = ({ children }) => {
+  const { locale } = useContext(LocaleContext);
   const [scroll, scrollTo] = useWindowScroll();
 
   return (
@@ -24,7 +26,7 @@ const Layout = ({ children }) => {
                 onClick={() => scrollTo({ y: 0 })}
                 color="tertiary"
               >
-                Scroll to top
+                {locale === "id" ? "Kembali ke atas" : "Back to top"}
               </Button>
             )}
           </Transition>

@@ -12,11 +12,13 @@ const useStyles = createStyles((theme) => ({
     },
   },
   inputBody: {
+    minHeight: "300px",
+    overflowY: "auto",
     "&:focus": {
       outline: "none",
     },
     "&:empty:before": {
-      content: '"input content here..."',
+      content: "attr(placeholder)",
       color: theme.colors["tertiary"][3],
     },
   },

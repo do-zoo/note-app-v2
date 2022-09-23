@@ -6,8 +6,8 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import LocaleContext from "../../../contexts/LocaleContext";
 import { login, register } from "../../../services/api/auth";
 import {
   emailValidation,
@@ -17,7 +17,7 @@ import {
 } from "../../../utils";
 
 const RegisterForm = () => {
-  const navigate = useNavigate();
+  const { locale } = useContext(LocaleContext);
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,6 +26,8 @@ const RegisterForm = () => {
   const [errorName, setErrorName] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
+  const [errorPasswordConfirmation, setErrorPasswordConfirmation] =
+    useState("");
   const [errorRegister, setErrorRegister] = useState("");
 
   const onSubmit = (e) => {
@@ -39,16 +41,44 @@ const RegisterForm = () => {
       emailValidation(email);
 
     const { isValid: isPasswordValid, message: passwordValidationMessage } =
-      passwordValidation(password, confirmPassword);
+      passwordValidation(password);
+    const {
+      isValid: isPasswordConfirmationValid,
+      message: passwordConfirmationValidationMessage,
+    } = passwordValidation(confirmPassword);
 
-    if (isEmailValid && isPasswordValid && isNameValid) {
+    if (
+      !isEmailValid ||
+      !isPasswordValid ||
+      !isNameValid ||
+      !isPasswordConfirmationValid
+    ) {
+      if (!isEmailValid) {
+        setErrorEmail(emailValidationMessage);
+      }
+      if (!isPasswordValid) {
+        setErrorPassword(passwordValidationMessage);
+      }
+      if (!isPasswordConfirmationValid) {
+        setErrorPasswordConfirmation(passwordConfirmationValidationMessage);
+      } else if (password !== confirmPassword) {
+        setErrorPasswordConfirmation({
+          id: "password tidak sama",
+          en: "password are not the same",
+        });
+      }
+      if (!isNameValid) {
+        setErrorName(nameValidationMessage);
+      }
+      setIsLoading(false);
+    } else {
       register({ name, email, password }).then((response) => {
         if (response.status === "success") {
           login({ email, password }).then((response) => {
             if (response.status === "success") {
               console.log(response);
               putAccessToken(response.data.accessToken);
-              navigate("/");
+              window.location = "/";
             } else {
               setErrorRegister(response.message);
               setIsLoading(false);
@@ -59,20 +89,10 @@ const RegisterForm = () => {
           setIsLoading(false);
         }
       });
-    } else {
-      if (!isEmailValid) {
-        setErrorEmail(emailValidationMessage);
-      }
-      if (!isPasswordValid) {
-        setErrorPassword(passwordValidationMessage);
-      }
-      if (!isNameValid) {
-        setErrorName(nameValidationMessage);
-      }
-      setIsLoading(false);
     }
   };
 
+  // console.log(errorName ?? "");
   return (
     <Box>
       <form onSubmit={onSubmit}>
@@ -89,7 +109,7 @@ const RegisterForm = () => {
               setErrorRegister("");
             }}
             {...(errorName && {
-              error: errorName,
+              error: errorName[locale],
             })}
           />
           <TextInput
@@ -104,7 +124,7 @@ const RegisterForm = () => {
               setErrorRegister("");
             }}
             {...(errorEmail && {
-              error: errorEmail,
+              error: errorEmail[locale],
             })}
           />
           <PasswordInput
@@ -119,7 +139,7 @@ const RegisterForm = () => {
               setErrorRegister("");
             }}
             {...(errorPassword && {
-              error: errorPassword,
+              error: errorPassword[locale],
             })}
           />
           <PasswordInput
@@ -130,16 +150,18 @@ const RegisterForm = () => {
             withAsterisk
             onChange={(e) => {
               setConfirmPassword(e.target.value);
-              setErrorPassword("");
+              setErrorPasswordConfirmation("");
               setErrorRegister("");
             }}
-            {...(errorPassword && {
-              error: errorPassword,
+            {...(errorPasswordConfirmation && {
+              error: errorPasswordConfirmation[locale],
             })}
           />
           {errorRegister && (
             <Text size="xs" color="red" align="center">
-              {errorRegister}
+              {locale === "id"
+                ? "Email sudah terdaftar, silahkan gunakan email lain"
+                : "Email already use"}
             </Text>
           )}
           <Button
@@ -148,7 +170,11 @@ const RegisterForm = () => {
             fullWidth
             type="submit"
           >
-            {isLoading ? "Sedang Memuat" : "Daftar"}
+            {isLoading
+              ? "Sedang Memuat"
+              : locale === "id"
+              ? "Daftar"
+              : "Register"}
           </Button>
         </Stack>
       </form>

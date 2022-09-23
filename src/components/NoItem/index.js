@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { TbNotesOff } from "react-icons/tb";
 
-const NoItem = ({
-  text = "Belum ada Catatan Aktif",
-  icon = <TbNotesOff size={"3rem"} />,
-}) => {
+const NoItem = ({ text, icon = <TbNotesOff size={"3rem"} /> }) => {
   return (
     <Stack
       align={"center"}

@@ -1,11 +1,13 @@
 import { ActionIcon, Box, Space, Text } from "@mantine/core";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useContext } from "react";
 import { TbCheck } from "react-icons/tb";
+import LocaleContext from "../../contexts/LocaleContext";
 import { BodyInput, TitleInput } from "../Inputs";
 import ModalWrapper from "./ModalWrapper";
 
 export default function ModalCreateNote({ isOpen, onClose, onSubmit }) {
+  const { locale } = useContext(LocaleContext);
   const [title, setTitle] = React.useState("");
   const [body, setBody] = React.useState("");
   const [error, setError] = React.useState(false);
@@ -21,7 +23,11 @@ export default function ModalCreateNote({ isOpen, onClose, onSubmit }) {
   };
 
   return (
-    <ModalWrapper isOpen={isOpen} title={"Create Note"} onClose={onClose}>
+    <ModalWrapper
+      isOpen={isOpen}
+      title={locale === "id" ? "Buat Catatan" : "Create Note"}
+      onClose={onClose}
+    >
       <Box>
         <TitleInput
           value={title}
@@ -50,7 +56,15 @@ export default function ModalCreateNote({ isOpen, onClose, onSubmit }) {
       >
         <TbCheck size={"1.5rem"} />
       </ActionIcon>
-      {error && <Text color="danger">oops... Input Tidak Boleh Kosong.</Text>}
+      {error && (
+        <Text color="danger">
+          {" "}
+          Oops...{" "}
+          {locale === "id"
+            ? "Input tidak boleh kosong."
+            : "Input cannot be empty"}
+        </Text>
+      )}
     </ModalWrapper>
   );
 }

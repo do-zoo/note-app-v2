@@ -1,6 +1,6 @@
 import { ActionIcon, Box, Grid, Group, TextInput, Title } from "@mantine/core";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   TbArchive,
   TbArchiveOff,
@@ -8,21 +8,25 @@ import {
   TbSearch,
   TbTrash,
 } from "react-icons/tb";
+import LocaleContext from "../../contexts/LocaleContext";
 import ModalCreateNote from "../Modals/ModalCreateNote";
 import useStyles from "./styles";
 
 export function TopMenuDetail({ isArchive, onArchive, onUnarchive, onDelete }) {
+  const { locale } = useContext(LocaleContext);
   const { classes } = useStyles();
   return (
     <Box className={classes.topBar}>
       <Group position="apart">
-        <Title order={3}>Detail Note</Title>
+        <Title order={3}>
+          {locale === "id" ? "Detail Catatan" : "Details Note"}
+        </Title>
 
         <Group position="right">
           <ActionIcon
             variant="filled"
             color={"danger"}
-            title="Delete"
+            title={locale === "id" ? "Hapus Catatan" : "Delete Note"}
             sx={{
               width: "2.5rem",
               height: "2.5rem",
@@ -37,7 +41,11 @@ export function TopMenuDetail({ isArchive, onArchive, onUnarchive, onDelete }) {
               <ActionIcon
                 variant="filled"
                 color={"secondary"}
-                title="Archive"
+                title={
+                  locale === "id"
+                    ? "Kembalikan ke Catatan Aktif"
+                    : "Restore to Active Note"
+                }
                 sx={{
                   width: "2.5rem",
                   height: "2.5rem",
@@ -50,7 +58,7 @@ export function TopMenuDetail({ isArchive, onArchive, onUnarchive, onDelete }) {
               <ActionIcon
                 variant="filled"
                 color={"secondary"}
-                title="Archive"
+                title={locale === "id" ? "Arsipkan Catatan" : "Archive Note"}
                 sx={{
                   width: "2.5rem",
                   height: "2.5rem",
@@ -85,6 +93,7 @@ export function TopMenuArchived() {
 }
 
 export const TopMenuHome = ({ onSearch, keyword, title, onCreate }) => {
+  const { locale } = useContext(LocaleContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { classes } = useStyles();
 
@@ -108,7 +117,9 @@ export const TopMenuHome = ({ onSearch, keyword, title, onCreate }) => {
             <Group position="right">
               <TextInput
                 icon={<TbSearch />}
-                placeholder="Search..."
+                placeholder={
+                  locale === "id" ? "Cari catatan..." : "Search note..."
+                }
                 sx={{
                   flexGrow: 1,
                 }}

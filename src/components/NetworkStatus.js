@@ -1,8 +1,10 @@
 import { Box, Text } from "@mantine/core";
 import { useNetwork } from "@mantine/hooks";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import LocaleContext from "../contexts/LocaleContext";
 
 function NetworkStatus() {
+  const { locale } = useContext(LocaleContext);
   const { online } = useNetwork();
   const [isReadyOnline, setIsReadyOnline] = useState(false);
   const [isOnline, setIsOnline] = useState(online);
@@ -40,7 +42,8 @@ function NetworkStatus() {
         })}
       >
         <Text size="xs" align="center">
-          Yeay... Terhubung kembali.
+          Yeay...{" "}
+          {locale === "id" ? "Kamu kembali online" : "You are back online"}
         </Text>
       </Box>
     );
@@ -59,7 +62,7 @@ function NetworkStatus() {
       })}
     >
       <Text size="xs" align="center">
-        Opps... Jaringan terputus.
+        Opps... {locale === "id" ? "Kamu sedang offline" : "You are offline"}
       </Text>
     </Box>
   );

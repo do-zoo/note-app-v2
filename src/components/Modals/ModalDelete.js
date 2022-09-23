@@ -1,11 +1,13 @@
 import { Button, Center, Group, Modal, Stack, Text } from "@mantine/core";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useContext } from "react";
 import { TiDelete } from "react-icons/ti";
 import { useNavigate } from "react-router-dom";
+import LocaleContext from "../../contexts/LocaleContext";
 import { deleteNote } from "../../services/api/notes";
 
 function ModalDelete({ isOpen, onClose, id, handleReFetch }) {
+  const { locale } = useContext(LocaleContext);
   let navigate = useNavigate();
   const handleDeleteNote = (id) => {
     deleteNote(id).then(() => {
@@ -21,11 +23,13 @@ function ModalDelete({ isOpen, onClose, id, handleReFetch }) {
           <TiDelete size={"3rem"} color="red" />
         </Center>
         <Text align="center">
-          Apakah anda yakin ingin menghapus catatan ini?
+          {locale === "id"
+            ? "Apakah anda yakin ingin menghapus catatan ini?"
+            : "Are you sure you want to delete this note?"}
         </Text>
         <Group position="center">
           <Button onClick={onClose} color="blue">
-            Tidak
+            {locale === "id" ? "Tidak" : "No"}
           </Button>
           <Button
             color={"red"}
@@ -33,7 +37,7 @@ function ModalDelete({ isOpen, onClose, id, handleReFetch }) {
               handleDeleteNote(id);
             }}
           >
-            Ya
+            {locale === "id" ? "Ya" : "Yes"}
           </Button>
         </Group>
       </Stack>

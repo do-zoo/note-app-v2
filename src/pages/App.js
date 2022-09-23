@@ -67,20 +67,22 @@ function App() {
         />
         <LocaleProvider value={contextValue}>
           <Layout>
-            {status === "success" ? (
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/archived" element={<Archived />} />
-                <Route path="/:noteId" element={<DetailNote />} />
-                <Route path="/404" element={<NotFound />} />
-                <Route path="*" element={<Navigate to="/404" replace />} />
-              </Routes>
-            ) : (
-              <Routes>
-                <Route path="/*" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-              </Routes>
-            )}
+            <Routes>
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<Navigate to="/404" replace />} />
+              {status === "success" ? (
+                <>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/archived" element={<Archived />} />
+                  <Route path="/:noteId" element={<DetailNote />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                </>
+              )}
+            </Routes>
           </Layout>
         </LocaleProvider>
       </MantineProvider>

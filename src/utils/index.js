@@ -1,19 +1,35 @@
-const showFormattedDate = (date) => {
+const showFormattedDate = (date, locale) => {
   const options = {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   };
-  return new Date(date).toLocaleDateString("id-ID", options);
+  if (locale === "id") {
+    return new Date(date).toLocaleDateString("id-ID", options);
+  }
+  return new Date(date).toLocaleDateString("en-US", options);
 };
 
 const emailValidation = (email) => {
+  if (email.length === 0) {
+    return {
+      isValid: false,
+      message: {
+        id: "Email tidak boleh kosong",
+        en: "Email cannot be empty",
+      },
+    };
+  }
+
   const re = /\S+@\S+\.\S+/;
   if (!re.test(email)) {
     return {
       isValid: false,
-      message: "Email tidak valid",
+      message: {
+        id: "Email tidak valid",
+        en: "Email is not valid",
+      },
     };
   }
   return {
@@ -22,18 +38,23 @@ const emailValidation = (email) => {
   };
 };
 
-const passwordValidation = (password, confirmPassword) => {
+const passwordValidation = (password) => {
+  if (password.length === 0) {
+    return {
+      isValid: false,
+      message: {
+        id: "Password tidak boleh kosong",
+        en: "Password cannot be empty",
+      },
+    };
+  }
   if (password.length < 6) {
     return {
       isValid: false,
-      message: "Password minimal 6 karakter",
-    };
-  }
-
-  if (password !== confirmPassword) {
-    return {
-      isValid: false,
-      message: "Password tidak sama",
+      message: {
+        id: "Password minimal 6 karakter",
+        en: "Password must be at least 6 characters",
+      },
     };
   }
   return {
@@ -43,10 +64,22 @@ const passwordValidation = (password, confirmPassword) => {
 };
 
 const nameValidation = (name) => {
+  if (name.length === 0) {
+    return {
+      isValid: false,
+      message: {
+        id: "Nama tidak boleh kosong",
+        en: "Name cannot be empty",
+      },
+    };
+  }
   if (name.length < 3) {
     return {
       isValid: false,
-      message: "Nama minimal 3 karakter",
+      message: {
+        id: "Nama minimal 3 karakter",
+        en: "Name must be at least 3 characters",
+      },
     };
   }
   return {

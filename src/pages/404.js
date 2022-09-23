@@ -1,7 +1,33 @@
 import { Box, Stack, Text } from "@mantine/core";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import LocaleContext from "../contexts/LocaleContext";
 
 function NotFound() {
+  const { locale } = useContext(LocaleContext);
+
+  const [count, setCount] = useState(10);
+
+  useEffect(() => {
+    if (count > 0) {
+      const interval = setInterval(() => {
+        setCount((count) => count - 1);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [count]);
+
+  useEffect(() => {
+    if (count === 0) {
+      const interval = setInterval(() => {
+        window.location = "/";
+      }, 2000);
+
+      return () => clearInterval(interval);
+    }
+  }, [count]);
+
+  console.log(count);
   return (
     <>
       <Stack align={"center"}>
@@ -166,7 +192,26 @@ function NotFound() {
             </defs>
           </svg>
         </Box>
-        <Text>Page Not Found</Text>
+        <Box px="xl">
+          <Text weight="bold" size="xl" align="center" mb="xs">
+            {locale === "id" ? "Halaman Tidak Ditemukan" : "Page Not Found"}
+          </Text>
+          {count === 0 ? (
+            <Text size="sm" align="center">
+              {locale === "id" ? "Mohon Tunggu..." : "Please wait..."}
+            </Text>
+          ) : (
+            <Text size="sm" align="center">
+              {locale === "id"
+                ? "Anda akan diarahkan ke halaman beranda dalam "
+                : "You will be redirected to the home page in "}
+              <Text span color="teal">
+                {count}
+              </Text>{" "}
+              {locale === "id" ? "detik." : "seconds."}
+            </Text>
+          )}
+        </Box>
       </Stack>
     </>
   );

@@ -1,10 +1,12 @@
 import { Box, Card, Group, Space, Text, Title } from "@mantine/core";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useContext } from "react";
+import LocaleContext from "../../contexts/LocaleContext";
 import { showFormattedDate } from "../../utils";
 import useStyles from "./styles";
 
 function DetailNoteComp({ body, title, createdAt }) {
+  const { locale } = useContext(LocaleContext);
   const { classes } = useStyles();
   return (
     <Box className={classes.DetailNote}>
@@ -13,7 +15,7 @@ function DetailNoteComp({ body, title, createdAt }) {
           <Group position="apart">
             <Title order={4}>{title}</Title>
             <Text align="right" weight={300} size="sm">
-              {showFormattedDate(createdAt)}
+              {showFormattedDate(createdAt, locale)}
             </Text>
           </Group>
         </Card.Section>

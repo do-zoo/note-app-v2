@@ -7,11 +7,13 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import LoginForm from "../components/Form/LoginForm";
+import LocaleContext from "../contexts/LocaleContext";
 
 export default function Login() {
+  const { locale } = useContext(LocaleContext);
   return (
     <Container size={"xs"} py="xl">
       <Stack py={"xl"} spacing="xl">
@@ -21,14 +23,20 @@ export default function Login() {
           }}
         >
           <Title order={3} mb="sm">
-            Selamat datang di Note App
+            {locale === "id"
+              ? "Selamat datang di Note App"
+              : "Welcome to Note App"}
           </Title>
-          <Text>Silahkan login terlebih dahulu</Text>
+          <Text>
+            {locale === "id"
+              ? "Silahkan login untuk melanjutkan"
+              : "Please login to continue"}
+          </Text>
         </Box>
         <LoginForm />
         <Divider my="xs" label="belum punya akun?" labelPosition="center" />
         <Button variant="outline" fullWidth component={Link} to="/register">
-          Daftar Akun
+          {locale === "id" ? "Daftar sekarang" : "Register now"}
         </Button>
       </Stack>
     </Container>
