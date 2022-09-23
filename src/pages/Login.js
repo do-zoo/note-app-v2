@@ -34,7 +34,13 @@ export default function Login() {
           </Text>
         </Box>
         <LoginForm />
-        <Divider my="xs" label="belum punya akun?" labelPosition="center" />
+        <Divider
+          my="xs"
+          label={
+            locale === "id" ? "belum punya akun?" : "don't have an account?"
+          }
+          labelPosition="center"
+        />
         <Button variant="outline" fullWidth component={Link} to="/register">
           {locale === "id" ? "Daftar sekarang" : "Register now"}
         </Button>

@@ -60,7 +60,7 @@ const LoginForm = () => {
       <form onSubmit={onSubmit}>
         <Stack>
           <TextInput
-            placeholder={locale === "id" ? "Masukan email" : "input email"}
+            placeholder={locale === "id" ? "Masukan email" : "Input email"}
             label="email"
             name="email"
             onChange={(e) => {
@@ -75,8 +75,10 @@ const LoginForm = () => {
             withAsterisk
           />
           <PasswordInput
-            placeholder="Masukan password"
-            label="password"
+            placeholder={
+              locale === "id" ? "Masukan password" : "input password"
+            }
+            label={locale === "id" ? "Kata sandi" : "Password"}
             name="password"
             onChange={(e) => {
               setPassword(e.target.value);

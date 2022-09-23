@@ -96,8 +96,8 @@ const RegisterForm = () => {
       <form onSubmit={onSubmit}>
         <Stack>
           <TextInput
-            placeholder="Masukan nama"
-            label="name"
+            placeholder={locale === "id" ? "Masukan nama" : "Input name"}
+            label={locale === "id" ? "Nama" : "Name"}
             name="name"
             value={name}
             withAsterisk
@@ -111,7 +111,7 @@ const RegisterForm = () => {
             })}
           />
           <TextInput
-            placeholder="Masukan email"
+            placeholder={locale === "id" ? "Masukan email" : "Input email"}
             label="email"
             name="email"
             value={email}
@@ -126,8 +126,10 @@ const RegisterForm = () => {
             })}
           />
           <PasswordInput
-            placeholder="Masukan password"
-            label="password"
+            placeholder={
+              locale === "id" ? "Masukan kata sandi" : "Input kata sandi"
+            }
+            label={locale === "id" ? "Kata sandi" : "Password"}
             name="password"
             value={password}
             withAsterisk
@@ -141,8 +143,10 @@ const RegisterForm = () => {
             })}
           />
           <PasswordInput
-            placeholder="Masukan ulang password"
-            label="konfirmasi password"
+            placeholder={
+              locale === "id" ? "Masukan ulang kata sandi" : "re-enter password"
+            }
+            label={locale === "id" ? "konfirmasi password" : "confirm password"}
             name="password_confirmation"
             value={confirmPassword}
             withAsterisk
