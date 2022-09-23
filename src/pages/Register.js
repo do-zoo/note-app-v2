@@ -41,7 +41,7 @@ export default function Register() {
           }
           labelPosition="center"
         />
-        <Button variant="outline" fullWidth component={Link} to="/login">
+        <Button variant="outline" fullWidth component={Link} to="/">
           {locale === "id" ? "Login sekarang" : "Login now"}
         </Button>
       </Stack>
