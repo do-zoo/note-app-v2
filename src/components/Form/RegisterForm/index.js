@@ -13,6 +13,7 @@ import {
   emailValidation,
   nameValidation,
   passwordValidation,
+  putAccessToken,
 } from "../../../utils";
 
 const RegisterForm = () => {
@@ -46,7 +47,7 @@ const RegisterForm = () => {
           login({ email, password }).then((response) => {
             if (response.status === "success") {
               console.log(response);
-              localStorage.setItem("accessToken", response.data.accessToken);
+              putAccessToken(response.data.accessToken);
               navigate("/");
             } else {
               setErrorRegister(response.message);

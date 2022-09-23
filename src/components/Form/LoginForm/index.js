@@ -7,12 +7,10 @@ import {
   TextInput,
 } from "@mantine/core";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { login } from "../../../services/auth";
-import { emailValidation } from "../../../utils";
+import { emailValidation, putAccessToken } from "../../../utils";
 
 const LoginForm = () => {
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
@@ -27,7 +25,7 @@ const LoginForm = () => {
     if (isEmailValid) {
       login({ email, password }).then((response) => {
         if (response.status === "success") {
-          localStorage.setItem("accessToken", response.data.accessToken);
+          putAccessToken(response.data.accessToken);
           window.location = "/";
         } else {
           setErrorLogin(response.message);

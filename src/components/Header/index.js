@@ -1,24 +1,52 @@
 import {
   ActionIcon,
+  Avatar,
   Box,
+  Button,
   Container,
+  Divider,
   Group,
   Header as MantineHeader,
+  HoverCard,
+  Image,
   MediaQuery,
+  Stack,
+  Text,
   Title,
   useMantineColorScheme,
 } from "@mantine/core";
-import React from "react";
+import { US } from "country-flag-icons/react/3x2";
+import getUnicodeFlagIcon from "country-flag-icons/unicode";
+import React, { useContext } from "react";
 import { MdOutlineEventNote } from "react-icons/md";
-import { TbArchive, TbArrowLeft, TbMoon, TbSun } from "react-icons/tb";
-import { Link, useLocation } from "react-router-dom";
+import {
+  TbArchive,
+  TbArrowLeft,
+  TbLanguage,
+  TbLogout,
+  TbMoon,
+  TbSun,
+} from "react-icons/tb";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import LocaleContext from "../../contexts/LocaleContext";
+import useSession from "../../hooks/useSession";
+import { deleteAccessToken, getInitialName } from "../../utils";
 import NetworkStatus from "../NetworkStatus";
 import useStyles from "./styles";
 
 const Header = () => {
+  const { locale, toggleLocale } = useContext(LocaleContext);
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { classes } = useStyles();
+
+  const { session } = useSession();
+
+  const handleLogout = () => {
+    deleteAccessToken();
+    navigate(0);
+  };
 
   const dark = colorScheme === "dark";
   return (
@@ -49,36 +77,99 @@ const Header = () => {
                 variant="transparent"
                 title="Back"
                 color={dark ? "tertiary.2" : "tertiary.6"}
-                component={Link}
-                to="/"
+                onClick={() => navigate(-1)}
               >
                 <TbArrowLeft size={"1.8rem"} />
               </ActionIcon>
             )}
           </Box>
           <Box>
-            <Group>
+            <Group position="right" spacing={"xl"}>
               {pathname === "/" && (
+                <>
+                  <ActionIcon
+                    className={classes.buttonNav}
+                    variant="filled"
+                    color={"secondary"}
+                    title="Archive"
+                    component={Link}
+                    to="/archived"
+                  >
+                    <TbArchive size={"1.8rem"} />
+                  </ActionIcon>
+                  <Divider orientation="vertical" />
+                </>
+              )}
+              <Group>
                 <ActionIcon
                   className={classes.buttonNav}
-                  variant="filled"
-                  color={"secondary"}
-                  title="Archive"
-                  component={Link}
-                  to="/archived"
+                  variant="light"
+                  color={dark ? "yellow" : "blue"}
+                  onClick={() => toggleLocale()}
+                  title={`Change to ${
+                    locale === "id" ? "English (US)" : "Indonesia"
+                  }`}
                 >
-                  <TbArchive size={"1.8rem"} />
+                  {locale === "id"
+                    ? getUnicodeFlagIcon("ID")
+                    : getUnicodeFlagIcon("US")}
                 </ActionIcon>
+                <ActionIcon
+                  className={classes.buttonNav}
+                  variant="light"
+                  color={dark ? "yellow" : "blue"}
+                  onClick={() => toggleColorScheme()}
+                  title="Change color mode"
+                >
+                  {dark ? (
+                    <TbSun size={"1.8rem"} />
+                  ) : (
+                    <TbMoon size={"1.8rem"} />
+                  )}
+                </ActionIcon>
+              </Group>
+              {session?.isAuth && (
+                <>
+                  <Divider orientation="vertical" />
+
+                  <HoverCard width={280} shadow="md" position="bottom-end">
+                    <HoverCard.Target>
+                      <Avatar
+                        className={classes.buttonNav}
+                        color="teal"
+                        radius="xl"
+                      >
+                        {getInitialName(session?.user?.name)}
+                      </Avatar>
+                    </HoverCard.Target>
+                    <HoverCard.Dropdown>
+                      <Stack>
+                        <Box>
+                          <Text size="md">
+                            Hi,{" "}
+                            <Text weight={"bold"} span>
+                              {session?.user?.name}
+                            </Text>
+                          </Text>
+                          <Text size="sm" weight={"lighter"}>
+                            ({session?.user?.email})
+                          </Text>
+                        </Box>
+                        <Group position="right">
+                          <Button
+                            leftIcon={<TbLogout size={"1.8rem"} />}
+                            variant="white"
+                            color="red"
+                            onClick={handleLogout}
+                          >
+                            Keluar
+                          </Button>
+                        </Group>
+                      </Stack>
+                    </HoverCard.Dropdown>
+                  </HoverCard>
+                </>
               )}
-              <ActionIcon
-                className={classes.buttonNav}
-                variant="light"
-                color={dark ? "yellow" : "blue"}
-                onClick={() => toggleColorScheme()}
-                title="Change color mode"
-              >
-                {dark ? <TbSun size={"1.8rem"} /> : <TbMoon size={"1.8rem"} />}
-              </ActionIcon>
             </Group>
           </Box>
         </Group>

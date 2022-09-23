@@ -61,3 +61,30 @@ export {
   passwordValidation,
   nameValidation,
 };
+
+export function getAccessToken() {
+  return localStorage.getItem("accessToken");
+}
+
+export function putAccessToken(accessToken) {
+  return localStorage.setItem("accessToken", accessToken);
+}
+
+export function deleteAccessToken() {
+  return localStorage.removeItem("accessToken");
+}
+
+export const getInitialName = (name) => {
+  if (name) {
+    const nameArray = name.split(" ");
+    if (nameArray.length === 2) {
+      return `${nameArray[0][0]}${nameArray[1][0]}`.toUpperCase();
+    }
+    if (nameArray.length > 2) {
+      return `${nameArray[0][0]}${nameArray[1][0]}${nameArray[2][0]}`.toUpperCase();
+    }
+
+    return name[0][0].toUpperCase();
+  }
+  return "";
+};

@@ -1,8 +1,5 @@
+import { getAccessToken } from "../../utils";
 import BASE_URL from "../baseUrl";
-
-function getAccessToken() {
-  return localStorage.getItem("accessToken");
-}
 
 async function fetchWithToken(url, options = {}) {
   try {
@@ -55,6 +52,5 @@ export async function getUserLogged(token) {
   });
   const responseJson = await response.json();
 
-  console.log(responseJson);
   return responseJson;
 }

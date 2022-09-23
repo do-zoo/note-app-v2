@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { getUserLogged } from "../services/auth";
+import { deleteAccessToken } from "../utils";
 
 const useSession = () => {
   const [session, setSession] = useState(null);
@@ -10,9 +11,12 @@ const useSession = () => {
     getUserLogged().then((res) => {
       setStatus(res.status);
       setMessage(res.message);
-      setSession(res.data);
+      setSession({
+        user: res.data,
+        isAuth: res.status === "success",
+      });
       if (res.status === "fail") {
-        localStorage.setItem("accessToken", "");
+        deleteAccessToken();
       }
     });
   }, []);
