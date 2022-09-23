@@ -84,10 +84,13 @@ TopMenuDetail.propTypes = {
 };
 
 export function TopMenuArchived() {
+  const { locale } = useContext(LocaleContext);
   const { classes } = useStyles();
   return (
     <Box className={classes.topBar}>
-      <Title order={3}>Archived</Title>
+      <Title order={3}>
+        {locale === "id" ? "Arsip Catatan" : "Archived Notes"}
+      </Title>
     </Box>
   );
 }

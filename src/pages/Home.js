@@ -79,11 +79,11 @@ export default function Home() {
   const renderMode = (mode) => {
     switch (mode) {
       case "active notes":
-        return "Catatan Aktif";
+        return locale === "id" ? "Catatan Aktif" : "Active Notes";
       case "search":
-        return "Hasil Pencarian";
+        return locale === "id" ? "Hasil Pencarian" : "Search Result";
       default:
-        return "Catatan Aktif";
+        return locale === "id" ? "Catatan Aktif" : "Active Notes";
     }
   };
 
